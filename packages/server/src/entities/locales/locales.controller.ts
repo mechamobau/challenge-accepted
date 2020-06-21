@@ -1,5 +1,7 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import FileRepository from '../../repositories/files.repository';
+import escapeSpecialCharacters from '../../utils/regex/escapeSpecialCharacters';
+import normalizeTextAccents from '../../utils/string/normalizeTextAccents';
 
 export type Locale = {
   id: number;
@@ -46,6 +48,44 @@ export default {
         data: {
           message: 'Error on reading locale list',
           stacktrace: err
+        }
+      });
+    }
+  },
+  search: async (req: Request, res: Response) => {
+    try {
+      if (!req.query.q)
+        throw new Error('Missing search query in request params');
+
+      const localesRepository = new FileRepository('locales');
+
+      const locales = await localesRepository.get<Locale[]>();
+
+      const querySearch = normalizeTextAccents(
+        escapeSpecialCharacters(req.query.q)
+      );
+
+      console.log({ querySearch });
+
+      const foundLocales = locales.filter(({ name }) =>
+        normalizeTextAccents(name).match(new RegExp(querySearch, 'gi'))
+      );
+
+      if (foundLocales) {
+        res.send({
+          data: {
+            results: foundLocales,
+            totalCount: foundLocales.length
+          }
+        });
+        return;
+      }
+
+      res.status(404).send({ data: [] });
+    } catch (err) {
+      res.status(500).send({
+        data: {
+          message: `${err}`
         }
       });
     }
