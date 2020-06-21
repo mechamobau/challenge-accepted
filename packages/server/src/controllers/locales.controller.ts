@@ -1,9 +1,16 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import FileRepository from '../repositories/files.repository';
-import { localesRoutes } from '../routes';
+
+export type Locale = {
+  id: number;
+  name: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+};
 
 export default {
-  index: async (req: Request, res: Response) => {
+  index: async (_: Request, res: Response) => {
     try {
       const localesRepository = new FileRepository('locales');
 
@@ -21,11 +28,19 @@ export default {
     try {
       const localesRepository = new FileRepository('locales');
 
-      const locales = await localesRepository.get();
+      const locales = await localesRepository.get<Locale[]>();
 
-      res.send({
-        data: locales.filter(locale => `${locale.id}` === req.params.id) ?? []
-      });
+      const foundLocales = locales.find(
+        locale => `${locale.id}` === req.params.id
+      );
+
+      if (foundLocales) {
+        res.send({
+          data: foundLocales
+        });
+      }
+
+      res.status(404).send({ data: [] });
     } catch (err) {
       res.status(500).send({
         data: {
