@@ -19,7 +19,7 @@ class FileRepository implements IFileRepository {
 
   constructor(fileName: string) {
     this.fileName = fileName;
-    this.path = resolve(__dirname, `../../data/${this.fileName}.json`);
+    this.path = resolve(__dirname, `../data/${this.fileName}.json`);
   }
 
   get = <T extends any>() =>
