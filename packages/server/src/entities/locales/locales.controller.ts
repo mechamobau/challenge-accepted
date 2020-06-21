@@ -40,6 +40,7 @@ export default {
         res.send({
           data: foundLocales
         });
+        return;
       }
 
       res.status(404).send({ data: [] });
@@ -64,8 +65,6 @@ export default {
       const querySearch = normalizeTextAccents(
         escapeSpecialCharacters(req.query.q)
       );
-
-      console.log({ querySearch });
 
       const foundLocales = locales.filter(({ name }) =>
         normalizeTextAccents(name).match(new RegExp(querySearch, 'gi'))

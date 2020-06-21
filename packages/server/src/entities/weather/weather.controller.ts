@@ -39,6 +39,7 @@ export default {
         res.send({
           data: foundForecasts
         });
+        return;
       }
 
       res.status(404).send({ data: [] });
