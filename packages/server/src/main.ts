@@ -1,6 +1,8 @@
 import express from 'express';
 
-import { localesRoutes, weatherRoutes } from './routes';
+import localesRoutes from './entities/locales/locales.routes';
+import weatherRoutes from './entities/weather/weather.routes';
+
 import bodyParser from 'body-parser';
 
 const app = express();

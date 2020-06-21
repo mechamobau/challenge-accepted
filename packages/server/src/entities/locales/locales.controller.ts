@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import FileRepository from '../repositories/files.repository';
+import FileRepository from '../../repositories/files.repository';
 
 export type Locale = {
   id: number;

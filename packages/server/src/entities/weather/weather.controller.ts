@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import FileRepository from '../repositories/files.repository';
-import type { Locale } from '../controllers/locales.controller';
+import FileRepository from '../../repositories/files.repository';
+import type { Locale } from '../locales/locales.controller';
 
 export type Weather = {
   date: string;
