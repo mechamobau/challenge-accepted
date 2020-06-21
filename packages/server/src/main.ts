@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { localesRoutes } from './routes';
+import { localesRoutes, weatherRoutes } from './routes';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/locales', localesRoutes);
+app.use('/weather', weatherRoutes);
 
 const PORT = process.env.PORT || 8000;
 
