@@ -22,8 +22,8 @@ class FileRepository implements IFileRepository {
     this.path = resolve(__dirname, `../../data/${this.fileName}.json`);
   }
 
-  get = () =>
-    new Promise<Location[]>((resolve, reject) => {
+  get = <T extends any>() =>
+    new Promise<T>((resolve, reject) => {
       readFile(this.path, (error, data) => {
         if (error) {
           reject(error);
